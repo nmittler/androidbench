@@ -21,7 +21,7 @@ public final class CreateSchemaBenchmark implements Benchmark {
     public CreateSchemaBenchmark(SchemaType schemaType, boolean useAnnotations, int warmupIterations, int iterations) {
         this.iterations = iterations;
         this.warmupIterations = warmupIterations;
-        name = String.format("Create (%s%s)", schemaType, (useAnnotations ? "_ANNOTATIONS" : ""));
+        name = String.format("Create (%s%s)", schemaType, (useAnnotations ? "" : "_NO_ANNOTATIONS"));
         switch (schemaType) {
             case HANDWRITTEN:
                 factory = new HandwrittenSchemaFactory();
