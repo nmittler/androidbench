@@ -1,7 +1,5 @@
 package com.example.nathanmittler.androidbench;
 
-import org.HdrHistogram.Histogram;
-
 import java.util.List;
 
 import io.nproto.ByteString;
@@ -12,16 +10,11 @@ import io.nproto.util.TestUtil;
 public final class WriteToBenchmark implements Benchmark {
     private final SchemaType schemaType;
     private final String name;
-    private final int iterations;
-    private final int warmupIterations;
-    private BenchmarkResultListener listener;
     private final PojoMessage message = TestUtil.newTestMessage();
     private final Writer writer = new TestWriter();
 
-    public WriteToBenchmark(SchemaType schemaType, int warmupIterations, int iterations) {
+    public WriteToBenchmark(SchemaType schemaType) {
         this.schemaType = schemaType;
-        this.iterations = iterations;
-        this.warmupIterations = warmupIterations;
         name = String.format("WriteTo (%s)", schemaType);
     }
 
@@ -31,38 +24,7 @@ public final class WriteToBenchmark implements Benchmark {
     }
 
     @Override
-    public void setResultListener(BenchmarkResultListener listener) {
-        this.listener = listener;
-    }
-
-    @Override
-    public void run() {
-        warmup();
-        if (Thread.interrupted()) {
-            listener.onBenchmarkCancelled();
-        }
-
-        final Histogram histogram = BenchmarkUtil.newHistogram();
-        for (int i = 0; !Thread.currentThread().isInterrupted() && i < iterations; ++i) {
-            long start = System.nanoTime();
-            doIteration();
-            // Record time in microseconds.
-            histogram.recordValue((System.nanoTime() - start) / 1000);
-        }
-        if (Thread.interrupted()) {
-            listener.onBenchmarkCancelled();
-        } else {
-            listener.onBenchmarkCompleted(histogram);
-        }
-    }
-
-    private void warmup() {
-        for (int i = 0; !Thread.currentThread().isInterrupted() && i < warmupIterations; ++i) {
-            doIteration();
-        }
-    }
-
-    private void doIteration() {
+    public void doIteration() {
         schemaType.writeTo(message, writer);
     }
 

@@ -1,7 +1,5 @@
 package com.example.nathanmittler.androidbench;
 
-import org.HdrHistogram.Histogram;
-
 import io.nproto.PojoMessage;
 import io.nproto.descriptor.AnnotationBeanDescriptorFactory;
 import io.nproto.descriptor.BeanDescriptorFactory;
@@ -12,15 +10,10 @@ import io.nproto.util.TestUtil;
 
 public final class CreateSchemaBenchmark implements Benchmark {
     private final String name;
-    private final int iterations;
-    private final int warmupIterations;
     private final BenchmarkBlackhole bh = new BenchmarkBlackhole();
-    private BenchmarkResultListener listener;
     private final SchemaFactory factory;
 
-    public CreateSchemaBenchmark(SchemaType schemaType, boolean useAnnotations, int warmupIterations, int iterations) {
-        this.iterations = iterations;
-        this.warmupIterations = warmupIterations;
+    public CreateSchemaBenchmark(SchemaType schemaType, boolean useAnnotations) {
         name = String.format("Create (%s%s)", schemaType, (useAnnotations ? "" : "_NO_ANNOTATIONS"));
         switch (schemaType) {
             case HANDWRITTEN:
@@ -41,38 +34,7 @@ public final class CreateSchemaBenchmark implements Benchmark {
     }
 
     @Override
-    public void setResultListener(BenchmarkResultListener listener) {
-        this.listener = listener;
-    }
-
-    @Override
-    public void run() {
-        warmup();
-        if (Thread.interrupted()) {
-            listener.onBenchmarkCancelled();
-        }
-
-        final Histogram histogram = BenchmarkUtil.newHistogram();
-        for (int i = 0; !Thread.currentThread().isInterrupted() && i < iterations; ++i) {
-            long start = System.nanoTime();
-            doIteration();
-            // Record time in microseconds.
-            histogram.recordValue((System.nanoTime() - start) / 1000);
-        }
-        if (Thread.interrupted()) {
-            listener.onBenchmarkCancelled();
-        } else {
-            listener.onBenchmarkCompleted(histogram);
-        }
-    }
-
-    private void warmup() {
-        for (int i = 0; !Thread.currentThread().isInterrupted() && i < warmupIterations; ++i) {
-            doIteration();
-        }
-    }
-
-    private void doIteration() {
+    public void doIteration() {
         bh.consume(factory.createSchema(PojoMessage.class));
     }
 }

@@ -1,6 +1,6 @@
 package com.example.nathanmittler.androidbench;
 
-interface Benchmark extends Runnable {
+interface Benchmark {
     String getName();
-    void setResultListener(BenchmarkResultListener listener);
+    void doIteration();
 }

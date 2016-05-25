@@ -16,11 +16,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import static com.example.nathanmittler.androidbench.BenchmarkRunner.forBenchmark;
+
 
 public class MainActivity extends AppCompatActivity {
-    private static final int WARMUP_ITERATIONS = 1000;
-    private static final int ITERATIONS = 5000;
-
     private Button startButton;
     private Button stopButton;
     private TextView textView;
@@ -44,14 +43,14 @@ public class MainActivity extends AppCompatActivity {
                 textView.setText("");
                 changeButtonMode(false);
                 workflow.start(
-                        new CreateSchemaBenchmark(SchemaType.HANDWRITTEN, false, WARMUP_ITERATIONS, ITERATIONS),
-                        new CreateSchemaBenchmark(SchemaType.GENERIC, false, WARMUP_ITERATIONS, ITERATIONS),
-                        new CreateSchemaBenchmark(SchemaType.GENERIC, true, WARMUP_ITERATIONS, ITERATIONS),
-                        new WriteToBenchmark(SchemaType.HANDWRITTEN, WARMUP_ITERATIONS, ITERATIONS),
-                        new WriteToBenchmark(SchemaType.GENERIC, WARMUP_ITERATIONS, ITERATIONS),
-                        new MergeFromBenchmark(SchemaType.HANDWRITTEN, WARMUP_ITERATIONS, ITERATIONS),
-                        new MergeFromBenchmark(SchemaType.GENERIC, WARMUP_ITERATIONS, ITERATIONS),
-                        new AnnotationBenchmark(WARMUP_ITERATIONS, ITERATIONS));
+                        forBenchmark(new CreateSchemaBenchmark(SchemaType.HANDWRITTEN, false)),
+                        forBenchmark(new CreateSchemaBenchmark(SchemaType.GENERIC, false)),
+                        forBenchmark(new CreateSchemaBenchmark(SchemaType.GENERIC, true)),
+                        forBenchmark(new WriteToBenchmark(SchemaType.HANDWRITTEN)),
+                        forBenchmark(new WriteToBenchmark(SchemaType.GENERIC)),
+                        forBenchmark(new MergeFromBenchmark(SchemaType.HANDWRITTEN)),
+                        forBenchmark(new MergeFromBenchmark(SchemaType.GENERIC)));
+                //forBenchmark(new AnnotationBenchmark()));
             }
         });
         stopButton.setOnClickListener(new View.OnClickListener() {
@@ -118,17 +117,17 @@ public class MainActivity extends AppCompatActivity {
 
     private final class Workflow implements BenchmarkResultListener {
         private final ExecutorService executor = Executors.newSingleThreadExecutor();
-        private Benchmark[] benchmarks;
+        private BenchmarkRunner[] runners;
         private Future<?> future;
         private int index;
-        private Benchmark benchmark;
+        private BenchmarkRunner runner;
         private long startTime;
 
-        void start(Benchmark... benchmarks) {
-            this.benchmarks = benchmarks;
+        void start(BenchmarkRunner... runners) {
+            this.runners = runners;
             index = 0;
             changeButtonMode(false);
-            startNextBenchmark();
+            startNextRunner();
         }
 
         void cancel() {
@@ -144,17 +143,17 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onBenchmarkCompleted(Histogram histogram) {
             printStats(histogram);
-            startNextBenchmark();
+            startNextRunner();
         }
 
-        private void startNextBenchmark() {
-            benchmark = nextBenchmark();
-            if (benchmark == null) {
+        private void startNextRunner() {
+            runner = nextRunner();
+            if (runner == null) {
                 onDone();
             } else {
-                benchmark.setResultListener(this);
+                runner.setResultListener(this);
                 startTime = System.nanoTime();
-                future = executor.submit(benchmark);
+                future = executor.submit(runner);
             }
         }
 
@@ -173,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
             long queriesPerSecond = histogram.getTotalCount() * 1000000000L / elapsedTime;
 
             StringBuilder values = new StringBuilder();
-            values.append(benchmark.getName()).append('\n')
+            values.append(runner.getBenchmark().getName()).append('\n')
                     .append("  50%ile (us):   ").append(latency50).append('\n')
                     .append("  90%ile (us):   ").append(latency90).append('\n')
                     .append("  95%ile (us):   ").append(latency95).append('\n')
@@ -184,11 +183,11 @@ public class MainActivity extends AppCompatActivity {
             System.out.println(values);
         }
 
-        private Benchmark nextBenchmark() {
-            if (index == benchmarks.length) {
+        private BenchmarkRunner nextRunner() {
+            if (index == runners.length) {
                 return null;
             }
-            return benchmarks[index++];
+            return runners[index++];
         }
     }
 }
