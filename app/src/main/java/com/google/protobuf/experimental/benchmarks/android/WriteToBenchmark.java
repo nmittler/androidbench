@@ -1,11 +1,11 @@
-package com.example.nathanmittler.androidbench;
+package com.google.protobuf.experimental.benchmarks.android;
 
 import java.util.List;
 
-import io.nproto.ByteString;
-import io.nproto.PojoMessage;
-import io.nproto.Writer;
-import io.nproto.util.TestUtil;
+import com.google.protobuf.experimental.ByteString;
+import com.google.protobuf.experimental.PojoMessage;
+import com.google.protobuf.experimental.Writer;
+import com.google.protobuf.experimental.util.TestUtil;
 
 public final class WriteToBenchmark implements Benchmark {
     private final SchemaType schemaType;

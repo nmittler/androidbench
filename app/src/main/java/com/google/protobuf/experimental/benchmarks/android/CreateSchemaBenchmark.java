@@ -1,12 +1,12 @@
-package com.example.nathanmittler.androidbench;
+package com.google.protobuf.experimental.benchmarks.android;
 
-import io.nproto.PojoMessage;
-import io.nproto.descriptor.AnnotationBeanDescriptorFactory;
-import io.nproto.descriptor.BeanDescriptorFactory;
-import io.nproto.schema.SchemaFactory;
-import io.nproto.schema.HandwrittenSchemaFactory;
-import io.nproto.schema.AndroidGenericSchemaFactory;
-import io.nproto.util.TestUtil;
+import com.google.protobuf.experimental.PojoMessage;
+import com.google.protobuf.experimental.descriptor.AnnotationBeanDescriptorFactory;
+import com.google.protobuf.experimental.descriptor.BeanDescriptorFactory;
+import com.google.protobuf.experimental.schema.SchemaFactory;
+import com.google.protobuf.experimental.schema.HandwrittenSchemaFactory;
+import com.google.protobuf.experimental.schema.AndroidGenericSchemaFactory;
+import com.google.protobuf.experimental.util.TestUtil;
 
 public final class CreateSchemaBenchmark implements Benchmark {
     private final String name;

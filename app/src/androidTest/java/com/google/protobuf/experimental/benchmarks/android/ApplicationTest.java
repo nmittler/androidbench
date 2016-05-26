@@ -1,4 +1,4 @@
-package com.example.nathanmittler.androidbench;
+package com.google.protobuf.experimental.benchmarks.android;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

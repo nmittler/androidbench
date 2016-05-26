@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "com.example.nathanmittler.androidbench"
+        applicationId "com.google.protobuf.experimental.benchmarks.android"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1

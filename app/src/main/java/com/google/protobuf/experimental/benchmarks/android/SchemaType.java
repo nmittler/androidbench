@@ -1,12 +1,12 @@
-package com.example.nathanmittler.androidbench;
+package com.google.protobuf.experimental.benchmarks.android;
 
-import io.nproto.PojoMessage;
-import io.nproto.Reader;
-import io.nproto.Writer;
-import io.nproto.schema.Schema;
-import io.nproto.schema.SchemaFactory;
-import io.nproto.schema.HandwrittenSchemaFactory;
-import io.nproto.schema.AndroidGenericSchemaFactory;
+import com.google.protobuf.experimental.PojoMessage;
+import com.google.protobuf.experimental.Reader;
+import com.google.protobuf.experimental.Writer;
+import com.google.protobuf.experimental.schema.Schema;
+import com.google.protobuf.experimental.schema.SchemaFactory;
+import com.google.protobuf.experimental.schema.HandwrittenSchemaFactory;
+import com.google.protobuf.experimental.schema.AndroidGenericSchemaFactory;
 
 public enum SchemaType {
     HANDWRITTEN(new HandwrittenSchemaFactory()),

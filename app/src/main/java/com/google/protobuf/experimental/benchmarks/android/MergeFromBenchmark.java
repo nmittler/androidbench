@@ -1,7 +1,7 @@
-package com.example.nathanmittler.androidbench;
+package com.google.protobuf.experimental.benchmarks.android;
 
-import io.nproto.PojoMessage;
-import io.nproto.util.TestUtil;
+import com.google.protobuf.experimental.PojoMessage;
+import com.google.protobuf.experimental.util.TestUtil;
 
 public final class MergeFromBenchmark implements Benchmark {
     private final SchemaType schemaType;

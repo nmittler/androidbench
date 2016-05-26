@@ -1,4 +1,4 @@
-package com.example.nathanmittler.androidbench;
+package com.google.protobuf.experimental.benchmarks.android;
 
 interface Benchmark {
     String getName();

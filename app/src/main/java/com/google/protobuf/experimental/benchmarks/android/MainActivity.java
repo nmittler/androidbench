@@ -1,4 +1,4 @@
-package com.example.nathanmittler.androidbench;
+package com.google.protobuf.experimental.benchmarks.android;
 
 import android.os.Bundle;
 import android.os.Looper;
@@ -10,13 +10,15 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.experimental.nathanmittler.androidbench.R;
+
 import org.HdrHistogram.Histogram;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static com.example.nathanmittler.androidbench.BenchmarkRunner.forBenchmark;
+import static com.google.protobuf.experimental.benchmarks.android.BenchmarkRunner.forBenchmark;
 
 
 public class MainActivity extends AppCompatActivity {

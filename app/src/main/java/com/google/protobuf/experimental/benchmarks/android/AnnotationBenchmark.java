@@ -1,14 +1,10 @@
-package com.example.nathanmittler.androidbench;
+package com.google.protobuf.experimental.benchmarks.android;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 
-import io.nproto.PojoMessage;
-import io.nproto.ProtoField;
-import io.nproto.descriptor.AnnotationBeanDescriptorFactory;
-import io.nproto.descriptor.PropertyDescriptor;
-import io.nproto.util.TestUtil;
+import com.google.protobuf.experimental.PojoMessage;
+import com.google.protobuf.experimental.descriptor.AnnotationBeanDescriptorFactory;
+import com.google.protobuf.experimental.util.TestUtil;
 
 public class AnnotationBenchmark implements Benchmark {
     private final AnnotationBeanDescriptorFactory factory = AnnotationBeanDescriptorFactory.getInstance();
