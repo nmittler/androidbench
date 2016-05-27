@@ -3,9 +3,9 @@ package com.google.protobuf.experimental.benchmarks.android;
 import com.google.protobuf.experimental.PojoMessage;
 import com.google.protobuf.experimental.descriptor.AnnotationBeanDescriptorFactory;
 import com.google.protobuf.experimental.descriptor.BeanDescriptorFactory;
+import com.google.protobuf.experimental.schema.GenericSchemaFactory;
 import com.google.protobuf.experimental.schema.SchemaFactory;
 import com.google.protobuf.experimental.schema.HandwrittenSchemaFactory;
-import com.google.protobuf.experimental.schema.AndroidGenericSchemaFactory;
 import com.google.protobuf.experimental.util.TestUtil;
 
 public final class CreateSchemaBenchmark implements Benchmark {
@@ -21,7 +21,7 @@ public final class CreateSchemaBenchmark implements Benchmark {
                 break;
             case GENERIC:
                 BeanDescriptorFactory descFactory = useAnnotations ? AnnotationBeanDescriptorFactory.getInstance() : TestUtil.PojoDescriptorFactory.getInstance();
-                factory = new AndroidGenericSchemaFactory(descFactory);
+                factory = new GenericSchemaFactory(descFactory);
                 break;
             default:
                 throw new IllegalArgumentException("schemaType " + schemaType.name());

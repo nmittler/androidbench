@@ -3,14 +3,14 @@ package com.google.protobuf.experimental.benchmarks.android;
 import com.google.protobuf.experimental.PojoMessage;
 import com.google.protobuf.experimental.Reader;
 import com.google.protobuf.experimental.Writer;
+import com.google.protobuf.experimental.schema.GenericSchemaFactory;
 import com.google.protobuf.experimental.schema.Schema;
 import com.google.protobuf.experimental.schema.SchemaFactory;
 import com.google.protobuf.experimental.schema.HandwrittenSchemaFactory;
-import com.google.protobuf.experimental.schema.AndroidGenericSchemaFactory;
 
 public enum SchemaType {
     HANDWRITTEN(new HandwrittenSchemaFactory()),
-    GENERIC(new AndroidGenericSchemaFactory());
+    GENERIC(new GenericSchemaFactory());
 
     SchemaType(SchemaFactory factory) {
         this.factory = factory;
