@@ -1,5 +1,6 @@
 package com.google.protobuf.experimental.benchmarks.android;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import com.experimental.nathanmittler.androidbench.R;
 
 import org.HdrHistogram.Histogram;
 
+import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -22,6 +24,7 @@ import static com.google.protobuf.experimental.benchmarks.android.BenchmarkRunne
 
 
 public class MainActivity extends AppCompatActivity {
+    static File ASM_SCHEMA_DIR;
     private Button startButton;
     private Button stopButton;
     private TextView textView;
@@ -31,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ASM_SCHEMA_DIR = getDir("ASM_SCHEMAS", Context.MODE_PRIVATE);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -45,13 +50,15 @@ public class MainActivity extends AppCompatActivity {
                 textView.setText("");
                 changeButtonMode(false);
                 workflow.start(
-                        forBenchmark(new CreateSchemaBenchmark(SchemaType.HANDWRITTEN, false)),
+                        /*forBenchmark(new CreateSchemaBenchmark(SchemaType.HANDWRITTEN, false)),
                         forBenchmark(new CreateSchemaBenchmark(SchemaType.GENERIC, false)),
-                        forBenchmark(new CreateSchemaBenchmark(SchemaType.GENERIC, true)),
+                        forBenchmark(new CreateSchemaBenchmark(SchemaType.GENERIC, true)),*/
                         forBenchmark(new WriteToBenchmark(SchemaType.HANDWRITTEN)),
                         forBenchmark(new WriteToBenchmark(SchemaType.GENERIC)),
+                        forBenchmark(new WriteToBenchmark(SchemaType.ASM)),
                         forBenchmark(new MergeFromBenchmark(SchemaType.HANDWRITTEN)),
-                        forBenchmark(new MergeFromBenchmark(SchemaType.GENERIC)));
+                        forBenchmark(new MergeFromBenchmark(SchemaType.GENERIC)),
+                        forBenchmark(new MergeFromBenchmark(SchemaType.ASM)));
                 //forBenchmark(new AnnotationBenchmark()));
             }
         });
