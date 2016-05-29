@@ -12,8 +12,12 @@ android {
         versionName "1.0"
     }
     buildTypes {
+        debug {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -24,8 +28,16 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:design:23.4.0'
-    compile 'io.nproto:nproto-core:0.0.1-SNAPSHOT'
-    compile 'io.nproto:nproto-android:0.0.1-SNAPSHOT'
-    compile 'io.nproto:nproto-asm:0.0.1-SNAPSHOT'
+    compile ('io.nproto:nproto-core:0.0.1-SNAPSHOT') {
+        transitive = false
+    }
+    compile ('io.nproto:nproto-android:0.0.1-SNAPSHOT') {
+        transitive = false
+    }
+    compile ('io.nproto:nproto-asm:0.0.1-SNAPSHOT') {
+        transitive = false
+    }
+    compile 'com.google.android.tools:dx:1.7'
+    compile 'org.ow2.asm:asm-all:5.1'
     compile 'org.hdrhistogram:HdrHistogram:2.1.9'
 }

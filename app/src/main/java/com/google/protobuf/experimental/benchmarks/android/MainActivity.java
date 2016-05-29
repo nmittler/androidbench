@@ -12,18 +12,25 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.experimental.nathanmittler.androidbench.R;
+import com.google.protobuf.experimental.example.PojoMessage;
 
 import org.HdrHistogram.Histogram;
 
 import java.io.File;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.logging.Logger;
 
 import static com.google.protobuf.experimental.benchmarks.android.BenchmarkRunner.forBenchmark;
 
 
 public class MainActivity extends AppCompatActivity {
+    private static final Logger logger = Logger.getLogger(MainActivity.class.getName());
+
     static File ASM_SCHEMA_DIR;
     private Button startButton;
     private Button stopButton;
@@ -44,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         stopButton = (Button) findViewById(R.id.stopButton);
         textView = (TextView) findViewById(R.id.textView);
         stopButton.setEnabled(false);
+        printPojo();
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -55,10 +63,10 @@ public class MainActivity extends AppCompatActivity {
                         forBenchmark(new CreateSchemaBenchmark(SchemaType.GENERIC, true)),*/
                         forBenchmark(new WriteToBenchmark(SchemaType.HANDWRITTEN)),
                         forBenchmark(new WriteToBenchmark(SchemaType.GENERIC)),
-                        forBenchmark(new WriteToBenchmark(SchemaType.ASM)),
+                        forBenchmark(new WriteToBenchmark(SchemaType.ASM)));/*,
                         forBenchmark(new MergeFromBenchmark(SchemaType.HANDWRITTEN)),
                         forBenchmark(new MergeFromBenchmark(SchemaType.GENERIC)),
-                        forBenchmark(new MergeFromBenchmark(SchemaType.ASM)));
+                        forBenchmark(new MergeFromBenchmark(SchemaType.ASM)));*/
                 //forBenchmark(new AnnotationBenchmark()));
             }
         });
@@ -68,6 +76,20 @@ public class MainActivity extends AppCompatActivity {
                 workflow.cancel();
             }
         });
+    }
+
+    private void printPojo() {
+        Class<?> clazz = PojoMessage.class;
+        for(Field f : clazz.getDeclaredFields()) {
+            int mod = f.getModifiers();
+            String scope = Modifier.isPublic(mod) ? "public" : Modifier.isPrivate(mod) ? "private" : "package-private";
+            logger.warning("PojoMessage field: " + f.getName() + " (" + scope + ")");
+        }
+        for(Method m : clazz.getDeclaredMethods()) {
+            int mod = m.getModifiers();
+            String scope = Modifier.isPublic(mod) ? "public" : Modifier.isPrivate(mod) ? "private" : "package-private";
+            logger.warning("PojoMessage method: " + m.getName() + " (" + scope + ")");
+        }
     }
 
     @Override

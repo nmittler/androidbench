@@ -1,6 +1,6 @@
 package com.google.protobuf.experimental.benchmarks.android;
 
-import com.google.protobuf.experimental.PojoMessage;
+import com.google.protobuf.experimental.example.PojoMessage;
 import com.google.protobuf.experimental.util.TestUtil;
 
 public final class MergeFromBenchmark implements Benchmark {

@@ -2,7 +2,7 @@ package com.google.protobuf.experimental.benchmarks.android;
 
 import java.lang.reflect.Field;
 
-import com.google.protobuf.experimental.PojoMessage;
+import com.google.protobuf.experimental.example.PojoMessage;
 import com.google.protobuf.experimental.descriptor.AnnotationBeanDescriptorFactory;
 import com.google.protobuf.experimental.util.TestUtil;
 

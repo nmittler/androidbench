@@ -9,9 +9,39 @@
 
 # Add any project specific keep options here:
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
+# TODO: Figure out why AsmSchemaFactory doesn't work with obfuscation
+-dontobfuscate
+
+-dontpreverify
+-repackageclasses ''
+-allowaccessmodification
+-optimizations !code/simplification/arithmetic
+
+# Some annoying warnings.
+-dontwarn sun.misc.Unsafe
+-dontwarn javax.xml.bind.DatatypeConverter
+-dontwarn android.test.AndroidTestCase
+-dontwarn android.test.AndroidTestRunner
+-dontwarn android.test.InstrumentationTestCase
+-dontwarn android.test.InstrumentationTestSuite
+-dontwarn android.test.suitebuilder.TestSuiteBuilder$FailedToCreateTests
+-dontwarn junit.runner.FailureDetailView
+
+# A couple of annoying notes.
+-dontnote junit.runner.BaseTestRunner
+-dontnote com.google.protobuf.experimental.util.UnsafeUtil
+
+# Needed for annotation processing.
+-keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod
+
+# Needed for looking up enum values by name.
+-keep,allowoptimization enum * {
+    *;
+}
+-keep class com.android.** {
+    *;
+}
+#-keep class org.objectweb.asm.** {
+#    *;
 #}
+

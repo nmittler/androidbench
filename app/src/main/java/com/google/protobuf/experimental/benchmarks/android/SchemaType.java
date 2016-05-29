@@ -1,16 +1,16 @@
 package com.google.protobuf.experimental.benchmarks.android;
 
-import com.google.protobuf.experimental.PojoMessage;
 import com.google.protobuf.experimental.Reader;
 import com.google.protobuf.experimental.Writer;
 import com.google.protobuf.experimental.descriptor.AnnotationBeanDescriptorFactory;
+import com.google.protobuf.experimental.example.HandwrittenSchemaFactory;
+import com.google.protobuf.experimental.example.PojoMessage;
 import com.google.protobuf.experimental.schema.AndroidClassLoadingStrategy;
 import com.google.protobuf.experimental.schema.AsmSchemaFactory;
 import com.google.protobuf.experimental.schema.ClassLoadingStrategy;
 import com.google.protobuf.experimental.schema.GenericSchemaFactory;
 import com.google.protobuf.experimental.schema.Schema;
 import com.google.protobuf.experimental.schema.SchemaFactory;
-import com.google.protobuf.experimental.schema.HandwrittenSchemaFactory;
 
 public enum SchemaType {
     HANDWRITTEN(new HandwrittenSchemaFactory()),

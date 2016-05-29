@@ -1,11 +1,11 @@
 package com.google.protobuf.experimental.benchmarks.android;
 
-import java.util.List;
-
 import com.google.protobuf.experimental.ByteString;
-import com.google.protobuf.experimental.PojoMessage;
 import com.google.protobuf.experimental.Writer;
+import com.google.protobuf.experimental.example.PojoMessage;
 import com.google.protobuf.experimental.util.TestUtil;
+
+import java.util.List;
 
 public final class WriteToBenchmark implements Benchmark {
     private final SchemaType schemaType;
