@@ -58,16 +58,15 @@ public class MainActivity extends AppCompatActivity {
                 textView.setText("");
                 changeButtonMode(false);
                 workflow.start(
-                        /*forBenchmark(new CreateSchemaBenchmark(SchemaType.HANDWRITTEN, false)),
+                        forBenchmark(new CreateSchemaBenchmark(SchemaType.HANDWRITTEN, false)),
                         forBenchmark(new CreateSchemaBenchmark(SchemaType.GENERIC, false)),
-                        forBenchmark(new CreateSchemaBenchmark(SchemaType.GENERIC, true)),*/
+                        forBenchmark(new CreateSchemaBenchmark(SchemaType.GENERIC, true)),
                         forBenchmark(new WriteToBenchmark(SchemaType.HANDWRITTEN)),
                         forBenchmark(new WriteToBenchmark(SchemaType.GENERIC)),
-                        forBenchmark(new WriteToBenchmark(SchemaType.ASM)));/*,
+                        forBenchmark(new WriteToBenchmark(SchemaType.ASM)),
                         forBenchmark(new MergeFromBenchmark(SchemaType.HANDWRITTEN)),
                         forBenchmark(new MergeFromBenchmark(SchemaType.GENERIC)),
-                        forBenchmark(new MergeFromBenchmark(SchemaType.ASM)));*/
-                //forBenchmark(new AnnotationBenchmark()));
+                        forBenchmark(new MergeFromBenchmark(SchemaType.ASM)));
             }
         });
         stopButton.setOnClickListener(new View.OnClickListener() {
@@ -81,14 +80,10 @@ public class MainActivity extends AppCompatActivity {
     private void printPojo() {
         Class<?> clazz = PojoMessage.class;
         for(Field f : clazz.getDeclaredFields()) {
-            int mod = f.getModifiers();
-            String scope = Modifier.isPublic(mod) ? "public" : Modifier.isPrivate(mod) ? "private" : "package-private";
-            logger.warning("PojoMessage field: " + f.getName() + " (" + scope + ")");
+            logger.warning("PojoMessage field: " + f.toGenericString());
         }
         for(Method m : clazz.getDeclaredMethods()) {
-            int mod = m.getModifiers();
-            String scope = Modifier.isPublic(mod) ? "public" : Modifier.isPrivate(mod) ? "private" : "package-private";
-            logger.warning("PojoMessage method: " + m.getName() + " (" + scope + ")");
+            logger.warning("PojoMessage method: " + m.toGenericString());
         }
     }
 
