@@ -8,7 +8,7 @@ import com.google.protobuf.experimental.example.PojoMessage;
 import com.google.protobuf.experimental.schema.GenericSchemaFactory;
 import com.google.protobuf.experimental.schema.Schema;
 import com.google.protobuf.experimental.schema.SchemaFactory;
-import com.google.protobuf.experimental.schema.android.AndroidClassLoadingStrategy;
+import com.google.protobuf.experimental.schema.asm.android.AndroidClassLoadingStrategy;
 import com.google.protobuf.experimental.schema.asm.AsmSchemaFactory;
 import com.google.protobuf.experimental.schema.asm.ClassLoadingStrategy;
 import com.google.protobuf.experimental.schema.asm.SchemaNamingStrategy;
