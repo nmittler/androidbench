@@ -39,6 +39,9 @@
 # Needed by AsmSchemaFactory
 # Proguard doesn't seem to keep the static methods even though AsmSchemaFactory
 # looks them up by name.
+-keep interface com.google.protobuf.experimental.Reader { *; }
+-keep interface com.google.protobuf.experimental.Writer { *; }
+-keep class com.google.protobuf.experimental.util.UnsafeUtil { *; }
 -keep class com.google.protobuf.experimental.util.SchemaUtil { *; }
 
 

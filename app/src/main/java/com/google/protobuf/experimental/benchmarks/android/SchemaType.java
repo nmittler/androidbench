@@ -5,17 +5,21 @@ import com.google.protobuf.experimental.Writer;
 import com.google.protobuf.experimental.descriptor.AnnotationBeanDescriptorFactory;
 import com.google.protobuf.experimental.example.HandwrittenSchemaFactory;
 import com.google.protobuf.experimental.example.PojoMessage;
-import com.google.protobuf.experimental.schema.AndroidClassLoadingStrategy;
-import com.google.protobuf.experimental.schema.AsmSchemaFactory;
-import com.google.protobuf.experimental.schema.ClassLoadingStrategy;
 import com.google.protobuf.experimental.schema.GenericSchemaFactory;
 import com.google.protobuf.experimental.schema.Schema;
 import com.google.protobuf.experimental.schema.SchemaFactory;
+import com.google.protobuf.experimental.schema.android.AndroidClassLoadingStrategy;
+import com.google.protobuf.experimental.schema.asm.AsmSchemaFactory;
+import com.google.protobuf.experimental.schema.asm.ClassLoadingStrategy;
+import com.google.protobuf.experimental.schema.asm.SchemaNamingStrategy;
 
 public enum SchemaType {
     HANDWRITTEN(new HandwrittenSchemaFactory()),
     GENERIC(new GenericSchemaFactory()),
-    ASM(newAsmSchemaFactory());
+    ASM_INLINE_SAFE(newAsmSchemaFactory(true, false)),
+    ASM_INLINE_UNSAFE(newAsmSchemaFactory(false, true)),
+    ASM_MINCODE_SAFE(newAsmSchemaFactory(true, false)),
+    ASM_MINCODE_UNSAFE(newAsmSchemaFactory(false, true));
 
     SchemaType(SchemaFactory factory) {
         this.factory = factory;
@@ -33,9 +37,29 @@ public enum SchemaType {
     final SchemaFactory factory;
     final Schema<PojoMessage> schema;
 
-    private static AsmSchemaFactory newAsmSchemaFactory() {
+    private static AsmSchemaFactory newAsmSchemaFactory(boolean minimizeCodeGen, boolean preferUnsafeAccess) {
         ClassLoadingStrategy classLoadingStrategy = new AndroidClassLoadingStrategy(
                 SchemaType.class.getClassLoader(), MainActivity.ASM_SCHEMA_DIR);
-        return new AsmSchemaFactory(classLoadingStrategy, AnnotationBeanDescriptorFactory.getInstance());
+        String schemaName = PojoMessage.class.getName() +
+                (minimizeCodeGen ? "Mincode" : "Inline") +
+                (preferUnsafeAccess ? "Unsafe" : "Safe") + "Schema";
+        return new AsmSchemaFactory(classLoadingStrategy,
+                AnnotationBeanDescriptorFactory.getInstance(),
+                new FixedSchemaNamingStrategy(schemaName),
+                minimizeCodeGen,
+                preferUnsafeAccess);
+    }
+
+    private static class FixedSchemaNamingStrategy implements SchemaNamingStrategy {
+        private final String name;
+
+        FixedSchemaNamingStrategy(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String schemaNameFor(Class<?> messageClass) {
+            return name;
+        }
     }
 }

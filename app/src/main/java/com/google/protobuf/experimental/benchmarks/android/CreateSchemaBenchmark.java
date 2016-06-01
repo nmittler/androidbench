@@ -20,7 +20,9 @@ public final class CreateSchemaBenchmark implements Benchmark {
                 factory = new HandwrittenSchemaFactory();
                 break;
             case GENERIC:
-                BeanDescriptorFactory descFactory = useAnnotations ? AnnotationBeanDescriptorFactory.getInstance() : TestUtil.PojoDescriptorFactory.getInstance();
+                BeanDescriptorFactory descFactory = useAnnotations ?
+                        AnnotationBeanDescriptorFactory.getInstance() :
+                        TestUtil.PojoDescriptorFactory.getInstance();
                 factory = new GenericSchemaFactory(descFactory);
                 break;
             default:

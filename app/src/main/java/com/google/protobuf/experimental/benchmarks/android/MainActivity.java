@@ -19,7 +19,6 @@ import org.HdrHistogram.Histogram;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -63,10 +62,16 @@ public class MainActivity extends AppCompatActivity {
                         forBenchmark(new CreateSchemaBenchmark(SchemaType.GENERIC, true)),
                         forBenchmark(new WriteToBenchmark(SchemaType.HANDWRITTEN)),
                         forBenchmark(new WriteToBenchmark(SchemaType.GENERIC)),
-                        forBenchmark(new WriteToBenchmark(SchemaType.ASM)),
+                        forBenchmark(new WriteToBenchmark(SchemaType.ASM_INLINE_SAFE)),
+                        forBenchmark(new WriteToBenchmark(SchemaType.ASM_INLINE_UNSAFE)),
+                        forBenchmark(new WriteToBenchmark(SchemaType.ASM_MINCODE_SAFE)),
+                        forBenchmark(new WriteToBenchmark(SchemaType.ASM_MINCODE_UNSAFE)),
                         forBenchmark(new MergeFromBenchmark(SchemaType.HANDWRITTEN)),
                         forBenchmark(new MergeFromBenchmark(SchemaType.GENERIC)),
-                        forBenchmark(new MergeFromBenchmark(SchemaType.ASM)));
+                        forBenchmark(new MergeFromBenchmark(SchemaType.ASM_INLINE_SAFE)),
+                        forBenchmark(new MergeFromBenchmark(SchemaType.ASM_INLINE_UNSAFE)),
+                        forBenchmark(new MergeFromBenchmark(SchemaType.ASM_MINCODE_SAFE)),
+                        forBenchmark(new MergeFromBenchmark(SchemaType.ASM_MINCODE_UNSAFE)));
             }
         });
         stopButton.setOnClickListener(new View.OnClickListener() {
